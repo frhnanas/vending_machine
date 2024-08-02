@@ -6,7 +6,7 @@ drink_choices = [
     {'name':'Yogurt','price': 29000}
 ]
 
-notes_list = [50000, 20000, 10000, 5000, 2000, 1000]
+notes_list = [[50000, 1], [20000, 2], [10000, 2], [5000, 3], [2000, 1], [1000, 1]]
 
 # print(drink_choices[0]['name'])
 
@@ -64,10 +64,29 @@ def process_payment(price):
         print("================================")
         print("Not enough notes to process payment")
         return change_list
+#     old code starts from here
+
+#     for notes in notes_list:
+#         notes_quantity = change // notes
+#         change = change % notes
+#         change_list[notes] = notes_quantity
+
+#     until here
     for notes in notes_list:
-        notes_quantity = change // notes
-        change = change % notes
-        change_list[notes] = notes_quantity
+        if (change <= 0):
+            break
+        if (notes[0] <= change):
+            notes_quantity = change // notes[0]
+            if (notes_quantity <= notes[1]):
+                change_list[notes[0]] = notes_quantity
+                change = change - (notes[0] * notes_quantity)
+            else:
+                change_list[notes[0]] = notes[1]
+                change = change - (notes[0] * notes[1])
+    if (change > 0):
+        print("================================")
+        print("Insufficient notes to process payment")
+        return {}
     return change_list
 
 def show_change(change):
